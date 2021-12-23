@@ -41,6 +41,7 @@ export const useOrderBookData = (feedId: FeedId, groupSize: number): [boolean, b
     const asks = new Map<number, number>();
     const bids = new Map<number, number>();
     const webSocket = new WebSocket("wss://www.cryptofacilities.com/ws/v1");
+    let requestAnimationFrameHandler: number = 0;
     webSocket.onopen = (e: Event) => {
       setIsConnectionOpen(true);
       setIsConnectionFailed(false);
@@ -52,6 +53,11 @@ export const useOrderBookData = (feedId: FeedId, groupSize: number): [boolean, b
         data = JSON.parse(ev.data);
       } catch (error) {
         console.error(error);
+        return;
+      }
+
+      // Message is not related to the current feed
+      if (data.product_id !== feedId) {
         return;
       }
 
@@ -71,7 +77,12 @@ export const useOrderBookData = (feedId: FeedId, groupSize: number): [boolean, b
         }
       });
 
-      setMessageData({asks, bids});
+      if (!requestAnimationFrameHandler) {
+        requestAnimationFrameHandler = requestAnimationFrame(() => {
+          setMessageData({asks, bids});
+          requestAnimationFrameHandler = 0;
+        });
+      }
     };
     webSocket.onerror = () => {
       setIsConnectionFailed(true);
@@ -87,6 +98,10 @@ export const useOrderBookData = (feedId: FeedId, groupSize: number): [boolean, b
     return () => {
       webSocket.send(createUnsubscriptionMessage(feedId));
       webSocket.close();
+
+      if (requestAnimationFrameHandler) {
+        cancelAnimationFrame(requestAnimationFrameHandler);
+      }
     };
   }, [feedId, forceReconnect]);
 

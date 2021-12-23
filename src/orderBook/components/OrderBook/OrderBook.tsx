@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC, useCallback, useState} from "react";
 import { FeedsConfig } from '../../constants/feedsConfig';
 import { useOrderBookData } from '../../hooks/useOrderBookData';
 import { FeedId } from '../../types/feed';
@@ -35,7 +35,7 @@ export const OrderBook: FC = () => {
 
   const [isConnectionOpen, isConnectionFailed, groupedData, killConnection, reconnect] = useOrderBookData(state.currentFeedId, getCurrentGroupSize());
 
-  const groupChanged = (groupIndex: number) => {
+  const groupChanged = useCallback((groupIndex: number) => {
     setState({
       ...state,
       groupState: {
@@ -45,9 +45,9 @@ export const OrderBook: FC = () => {
         },
       },
     });
-  };
+  }, [state.currentFeedId]);
 
-  const toggleFeed = () => {
+  const toggleFeed = useCallback(() => {
     const nextFeedId: FeedId = (state.currentFeedId === FeedId.PI_XBTUSD) ?
       FeedId.PI_ETHUSD :
       FeedId.PI_XBTUSD;
@@ -56,7 +56,7 @@ export const OrderBook: FC = () => {
       ...state,
       currentFeedId: nextFeedId,
     });
-  };
+  }, [state.currentFeedId]);
 
   return (
     <section className={styles.main}>
@@ -72,10 +72,10 @@ export const OrderBook: FC = () => {
           Connection is lost or unstable. Displayed data may be unaccurate.
         </div>
         <div className={styles["bids-panel"]}>
-          <OrderBookPanel values={groupedData.bids} type={OrderBookPanelType.bids}></OrderBookPanel>
+          <OrderBookPanel values={groupedData.bids} type={OrderBookPanelType.bids} precision={FeedsConfig[state.currentFeedId].precision}></OrderBookPanel>
         </div>
         <div className={styles["asks-panel"]}>
-          <OrderBookPanel values={groupedData.asks} type={OrderBookPanelType.asks}></OrderBookPanel>
+          <OrderBookPanel values={groupedData.asks} type={OrderBookPanelType.asks} precision={FeedsConfig[state.currentFeedId].precision}></OrderBookPanel>
         </div>
       </div>
       <footer className={styles.footer}>
@@ -83,5 +83,4 @@ export const OrderBook: FC = () => {
       </footer>
     </section>
   );
-
 };
