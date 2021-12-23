@@ -2,7 +2,6 @@ export interface FeedConfig {
   feedId: string;
   groupOptions: number[];
   defaultGroupIndex: number;
-  precision: number;
 }
 
 export type FeedConfigRecord = Record<string, FeedConfig>;

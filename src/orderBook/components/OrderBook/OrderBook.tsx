@@ -45,7 +45,7 @@ export const OrderBook: FC = () => {
         },
       },
     });
-  }, [state.currentFeedId]);
+  }, [state]);
 
   const toggleFeed = useCallback(() => {
     const nextFeedId: FeedId = (state.currentFeedId === FeedId.PI_XBTUSD) ?
@@ -72,10 +72,10 @@ export const OrderBook: FC = () => {
           Connection is lost or unstable. Displayed data may be unaccurate.
         </div>
         <div className={styles["bids-panel"]}>
-          <OrderBookPanel values={groupedData.bids} type={OrderBookPanelType.bids} precision={FeedsConfig[state.currentFeedId].precision}></OrderBookPanel>
+          <OrderBookPanel values={groupedData.bids} type={OrderBookPanelType.bids}></OrderBookPanel>
         </div>
         <div className={styles["asks-panel"]}>
-          <OrderBookPanel values={groupedData.asks} type={OrderBookPanelType.asks} precision={FeedsConfig[state.currentFeedId].precision}></OrderBookPanel>
+          <OrderBookPanel values={groupedData.asks} type={OrderBookPanelType.asks}></OrderBookPanel>
         </div>
       </div>
       <footer className={styles.footer}>

@@ -8,7 +8,6 @@ export enum OrderBookPanelType {
 
 export type OrderBookPanelProps = {
   values: Map<number, number>;
-  precision: number;
   type: OrderBookPanelType;
 };
 
@@ -32,7 +31,7 @@ export const OrderBookPanel: FC<OrderBookPanelProps> = (props) => {
       }
     });
     return rows;
-  }, [props.values, props.precision]);
+  }, [props.values]);
 
   return (
     <div className={`${styles.main} ${styles[props.type]}`}>
