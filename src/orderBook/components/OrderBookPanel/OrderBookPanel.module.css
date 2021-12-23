@@ -1,0 +1,33 @@
+.main {
+  display: contents;
+}
+
+.main.bids {
+  --columns-direction: row;
+  --color: green;
+}
+
+.main.asks {
+  --columns-direction: row-reverse;
+  --color: red;
+}
+
+.header {
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+}
+
+.header, .item {
+  display: flex;
+  flex-direction: var(--columns-direction);
+}
+
+.header > span, .item > span {
+  text-transform: uppercase;
+  text-align: right;
+  flex: 1;
+}
+
+.price {
+  color: var(--color);
+}
