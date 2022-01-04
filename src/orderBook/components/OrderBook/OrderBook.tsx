@@ -1,10 +1,10 @@
 import React, {FC, useCallback, useState} from "react";
-import { FeedsConfig } from '../../constants/feedsConfig';
-import { useOrderBookData } from '../../hooks/useOrderBookData';
-import { FeedId } from '../../types/feed';
-import { OrderBookPanel, OrderBookPanelType } from '../OrderBookPanel/OrderBookPanel';
-import { OrderBookFooter } from '../Footer/OrderBookFooter';
-import { OrderBookHeader } from '../Header/OrderBookHeader';
+import { FeedsConfig } from "../../constants/feedsConfig";
+import { useOrderBookData } from "../../hooks/useOrderBookData";
+import { FeedId } from "../../types/feed";
+import { OrderBookPanel, OrderBookPanelType } from "../OrderBookPanel/OrderBookPanel";
+import { OrderBookFooter } from "../Footer/OrderBookFooter";
+import { OrderBookHeader } from "../Header/OrderBookHeader";
 import styles from "./OrderBook.module.css";
 
 type OrderBookState = {

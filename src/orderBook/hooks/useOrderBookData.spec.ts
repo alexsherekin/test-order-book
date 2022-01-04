@@ -1,8 +1,8 @@
 import { renderHook, act } from "@testing-library/react-hooks";
-import { MockWebSocket } from '../../tests/mockWebSocket';
-import { FeedId } from '../types/feed';
-import { OrderBookMessage } from '../types/orderBook';
-import { createSubscriptionMessage, createUnsubscriptionMessage, useOrderBookData } from './useOrderBookData'
+import { MockWebSocket } from "../../tests/mockWebSocket";
+import { FeedId } from "../types/feed";
+import { OrderBookMessage } from "../types/orderBook";
+import { createSubscriptionMessage, createUnsubscriptionMessage, useOrderBookData } from "./useOrderBookData";
 
 const render = (feedId: FeedId, groupSize: number) => {
   return renderHook((props) => useOrderBookData(props), {
@@ -10,10 +10,10 @@ const render = (feedId: FeedId, groupSize: number) => {
   });
 };
 
-describe(useOrderBookData.name, () => {
+describe(useOrderBookData.name.toString(), () => {
   let mockedWebSocket: WebSocket;
   beforeEach(() => {
-    mockedWebSocket = new MockWebSocket("");
+    mockedWebSocket = new MockWebSocket();
     mockedWebSocket.send = jest.fn();
     mockedWebSocket.close = jest.fn();
     global.requestAnimationFrame = (callback) => {
@@ -64,14 +64,14 @@ describe(useOrderBookData.name, () => {
   it("should clean up when feedId changes", () => {
     let feedId = FeedId.PI_XBTUSD;
     let groupSize = 1;
-    const {result, rerender} = render(feedId, groupSize);
+    const {rerender} = render(feedId, groupSize);
 
-    const oldFeedId = feedId;
     act(() => {
       mockedWebSocket.onopen!(new Event("mock"));
-      feedId = FeedId.PI_ETHUSD;
-      rerender({feedId, groupSize});
     });
+    const oldFeedId = feedId;
+    feedId = FeedId.PI_ETHUSD;
+    rerender({feedId, groupSize});
 
     expect(mockedWebSocket.send).toHaveBeenLastCalledWith(createUnsubscriptionMessage(oldFeedId));
     expect(mockedWebSocket.close).toHaveBeenCalledTimes(1);

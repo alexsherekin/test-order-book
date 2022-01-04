@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import Button from 'react-bootstrap/button';
+import React, { FC } from "react";
+import Button from "react-bootstrap/button";
 import styles from "./OrderBookFooter.module.css";
 
 export interface OrderBookFooterProps {

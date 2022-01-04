@@ -1,12 +1,8 @@
 import React from "react";
-import {render} from '@testing-library/react';
-import {OrderBookFooter, OrderBookFooterProps} from "./OrderBookFooter";
+import {render} from "@testing-library/react";
+import {OrderBookFooter} from "./OrderBookFooter";
 
-const renderComponent = (props: OrderBookFooterProps) => {
-  return render(<OrderBookFooter {...props} />);
-}
-
-describe(OrderBookFooter.name, () => {
+describe(OrderBookFooter.name.toString(), () => {
   it.each([
     [
       {
@@ -23,8 +19,8 @@ describe(OrderBookFooter.name, () => {
       },
     ]
   ])("should render", (props) => {
-    const renderedComponent = renderComponent(props);
+    const {asFragment} = render(<OrderBookFooter {...props} />);
 
-    expect(renderedComponent.asFragment()).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

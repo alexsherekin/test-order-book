@@ -1,6 +1,4 @@
 export class MockWebSocket implements WebSocket {
-  constructor(url: string, protocols?: string | string[] | undefined) {}
-
   binaryType!: BinaryType;
   bufferedAmount!: number;
   extensions!: string;

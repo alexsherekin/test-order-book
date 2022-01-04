@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from "react";
-import { OrderBookItem } from '../../types/orderBook';
+import { OrderBookItem } from "../../types/orderBook";
 import styles from "./OrderBookPanel.module.css";
 
 export enum OrderBookPanelType {
@@ -31,7 +31,7 @@ export const OrderBookPanel: FC<OrderBookPanelProps> = (props) => {
       </div>);
     });
     return rows;
-  }, [props.values]);
+  }, [props.values, props.precision]);
 
   return (
     <div className={`${styles.main} ${styles[props.type]}`}>

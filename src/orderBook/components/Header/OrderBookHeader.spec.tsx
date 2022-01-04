@@ -1,8 +1,8 @@
-import { render, fireEvent, getByTestId } from '@testing-library/react';
-import React, { ReactPropTypes } from "react";
-import { OrderBookHeader, OrderBookHeaderProps } from './OrderBookHeader';
+import React from "react";
+import { render, fireEvent, screen } from "@testing-library/react";
+import { OrderBookHeader, OrderBookHeaderProps } from "./OrderBookHeader";
 
-const renderComponent = (props: OrderBookHeaderProps) => {
+const doRenderComponent = (props: OrderBookHeaderProps) => {
   return render(<OrderBookHeader {...props} />);
 }
 
@@ -13,15 +13,15 @@ const defaultProps: React.PropsWithChildren<OrderBookHeaderProps> = {
   children: <span>Children</span>,
 }
 
-describe(OrderBookHeader.name, () => {
+describe(OrderBookHeader.name.toString(), () => {
   it("should call groupChanged callback", () => {
     const props: OrderBookHeaderProps = {
       ...defaultProps
     };
     const selectedValue = 2;
-    const renderedComponent = renderComponent(props);
+    doRenderComponent(props);
 
-    fireEvent.change(getByTestId(renderedComponent.container, "order-book-select"), {
+    fireEvent.change(screen.getByTestId("order-book-select"), {
       target: {
         value: selectedValue,
       }
@@ -31,8 +31,8 @@ describe(OrderBookHeader.name, () => {
   });
 
   it("should render", () => {
-    const renderedComponent = renderComponent(defaultProps);
+    const {asFragment} = doRenderComponent(defaultProps);
 
-    expect(renderedComponent.asFragment()).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

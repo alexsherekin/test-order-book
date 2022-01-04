@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { FeedId } from '../types/feed';
-import { OrderBookData, OrderBookMessage } from '../types/orderBook';
+import { useEffect, useState } from "react";
+import { FeedId } from "../types/feed";
+import { OrderBookData, OrderBookMessage } from "../types/orderBook";
 
 type MessageData = {
   bids: Map<number, number>;

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 import styles from "./OrderBookHeader.module.css";
 
 export interface OrderBookHeaderProps {
