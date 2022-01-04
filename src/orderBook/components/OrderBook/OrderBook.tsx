@@ -33,6 +33,10 @@ export const OrderBook: FC = () => {
     return FeedsConfig[state.currentFeedId].groupOptions[getCurrentGroupIndex()];
   };
 
+  const getCurrentGroupPrecision = (): number => {
+    return FeedsConfig[state.currentFeedId].precision;
+  };
+
   const [isConnectionOpen, isConnectionFailed, groupedData, killConnection, reconnect] = useOrderBookData(state.currentFeedId, getCurrentGroupSize());
 
   const groupChanged = useCallback((groupIndex: number) => {
@@ -58,6 +62,9 @@ export const OrderBook: FC = () => {
     });
   }, [state.currentFeedId]);
 
+  const spreadAbs = (groupedData.asks[0]?.price && groupedData.bids[0]?.price) ? groupedData.asks[0].price - groupedData.bids[0].price : 0;
+  const spreadPercents = groupedData.asks[0]?.price ? (spreadAbs / (groupedData.asks[0].price) * 100) : 0;
+
   return (
     <section className={styles.main}>
       <header className={styles.header}>
@@ -65,6 +72,7 @@ export const OrderBook: FC = () => {
           groups={FeedsConfig[state.currentFeedId].groupOptions}
           currentGroup={getCurrentGroupIndex()}
           groupChanged={groupChanged}>
+            <span>{`Spread  ${spreadAbs.toFixed(1)} (${spreadPercents.toFixed(2)}%)`}</span>
         </OrderBookHeader>
       </header>
       <div className={styles.panels}>
@@ -72,10 +80,10 @@ export const OrderBook: FC = () => {
           Connection is lost or unstable. Displayed data may be unaccurate.
         </div>
         <div className={styles["bids-panel"]}>
-          <OrderBookPanel values={groupedData.bids} type={OrderBookPanelType.bids}></OrderBookPanel>
+          <OrderBookPanel values={groupedData.bids} type={OrderBookPanelType.bids} precision={getCurrentGroupPrecision()}></OrderBookPanel>
         </div>
         <div className={styles["asks-panel"]}>
-          <OrderBookPanel values={groupedData.asks} type={OrderBookPanelType.asks}></OrderBookPanel>
+          <OrderBookPanel values={groupedData.asks} type={OrderBookPanelType.asks} precision={getCurrentGroupPrecision()}></OrderBookPanel>
         </div>
       </div>
       <footer className={styles.footer}>

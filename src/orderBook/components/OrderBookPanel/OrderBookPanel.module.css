@@ -1,15 +1,20 @@
 .main {
   display: contents;
+  --total-line-width: 0;
 }
 
 .main.bids {
   --columns-direction: row;
   --color: green;
+  --total-bar-alignment-left: unset;
+  --total-bar-alignment-right: 0;
 }
 
 .main.asks {
   --columns-direction: row-reverse;
   --color: red;
+  --total-bar-alignment-left: 0;
+  --total-bar-alignment-right: unset;
 }
 
 .header {
@@ -20,6 +25,21 @@
 .header, .item {
   display: flex;
   flex-direction: var(--columns-direction);
+}
+
+.item {
+  position: relative;
+}
+
+.item:before {
+  content: "";
+  position: absolute;
+  width: var(--total-line-width);
+  height: 100%;
+  background-color: var(--color);
+  opacity: 0.2;
+  left: var(--total-bar-alignment-left);
+  right: var(--total-bar-alignment-right);
 }
 
 .header > span, .item > span {

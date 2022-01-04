@@ -11,6 +11,7 @@ export const OrderBookHeader: FC<OrderBookHeaderProps> = (props) => {
   return (
     <div className={styles.header}>
       <span>Order book</span>
+      <span>{props.children}</span>
       <select
         id="order-book-group"
         value={props.currentGroup}

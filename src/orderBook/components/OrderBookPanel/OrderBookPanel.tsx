@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from "react";
+import { OrderBookItem } from '../../types/orderBook';
 import styles from "./OrderBookPanel.module.css";
 
 export enum OrderBookPanelType {
@@ -7,28 +8,27 @@ export enum OrderBookPanelType {
 }
 
 export type OrderBookPanelProps = {
-  values: Map<number, number>;
+  values: OrderBookItem[];
   type: OrderBookPanelType;
+  precision: number;
 };
 
 // Ideally this should be dynamic and depend on a panel width
-const MAX_ROWS = 20;
+const MAX_ROWS = 30;
 
 export const OrderBookPanel: FC<OrderBookPanelProps> = (props) => {
   const rows = useMemo(() => {
+    const trimmedValues = [...props.values];
+    trimmedValues.length = MAX_ROWS;
     const rows: JSX.Element[] = [];
-    let acc = 0;
-    props.values.forEach((size: number, price: number) => {
-      acc += size;
-      rows.push(<div key={price} className={styles.item}>
-        <span>{acc}</span>
+    const maxTotal = Math.max(...trimmedValues.map(value => value.total));
+    trimmedValues.forEach(({price, size, total}) => {
+      const lineWidthStyle = {"--total-line-width": `${total / maxTotal * 100}%`};
+      rows.push(<div key={price} className={styles.item} style={lineWidthStyle as any}>
+        <span>{total}</span>
         <span>{size}</span>
-        <span className={styles.price}>{price}</span>
+        <span className={styles.price}>{price.toFixed(props.precision)}</span>
       </div>);
-
-      if (rows.length === MAX_ROWS) {
-        return rows;
-      }
     });
     return rows;
   }, [props.values]);
