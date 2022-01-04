@@ -2,7 +2,7 @@ import React from "react";
 import {render} from "@testing-library/react";
 import {OrderBookFooter} from "./OrderBookFooter";
 
-describe(OrderBookFooter.name.toString(), () => {
+describe(`${OrderBookFooter.name}`, () => {
   it.each([
     [
       {

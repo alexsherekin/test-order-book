@@ -10,7 +10,7 @@ const render = (feedId: FeedId, groupSize: number) => {
   });
 };
 
-describe(useOrderBookData.name.toString(), () => {
+describe(`${useOrderBookData.name}`, () => {
   let mockedWebSocket: WebSocket;
   beforeEach(() => {
     mockedWebSocket = new MockWebSocket();

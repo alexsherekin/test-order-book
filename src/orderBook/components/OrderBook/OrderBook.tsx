@@ -56,10 +56,10 @@ export const OrderBook: FC = () => {
       FeedId.PI_ETHUSD :
       FeedId.PI_XBTUSD;
 
-    setState({
-      ...state,
+    setState(actualState => ({
+      ...actualState,
       currentFeedId: nextFeedId,
-    });
+    }));
   }, [state.currentFeedId]);
 
   const spreadAbs = (groupedData.asks[0]?.price && groupedData.bids[0]?.price) ? groupedData.asks[0].price - groupedData.bids[0].price : 0;

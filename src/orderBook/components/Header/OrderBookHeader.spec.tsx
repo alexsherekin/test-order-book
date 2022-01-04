@@ -13,7 +13,7 @@ const defaultProps: React.PropsWithChildren<OrderBookHeaderProps> = {
   children: <span>Children</span>,
 }
 
-describe(OrderBookHeader.name.toString(), () => {
+describe(`${OrderBookHeader.name}`, () => {
   it("should call groupChanged callback", () => {
     const props: OrderBookHeaderProps = {
       ...defaultProps
