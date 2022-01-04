@@ -13,7 +13,7 @@ export const OrderBookHeader: FC<OrderBookHeaderProps> = (props) => {
       <span>Order book</span>
       <span>{props.children}</span>
       <select
-        id="order-book-group"
+        data-testid="order-book-select"
         value={props.currentGroup}
         onChange={e => props.groupChanged(Number(e.target.value))}>
         {

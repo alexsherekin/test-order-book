@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OrderBookHeader should render 1`] = `
+<DocumentFragment>
+  <div
+    class="header"
+  >
+    <span>
+      Order book
+    </span>
+    <span>
+      <span>
+        Children
+      </span>
+    </span>
+    <select
+      data-testid="order-book-select"
+    >
+      <option
+        value="0"
+      >
+        Group 1
+      </option>
+      <option
+        value="1"
+      >
+        Group 2
+      </option>
+      <option
+        value="2"
+      >
+        Group 3
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;

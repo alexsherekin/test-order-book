@@ -37,7 +37,7 @@ export const OrderBook: FC = () => {
     return FeedsConfig[state.currentFeedId].precision;
   };
 
-  const [isConnectionOpen, isConnectionFailed, groupedData, killConnection, reconnect] = useOrderBookData(state.currentFeedId, getCurrentGroupSize());
+  const {isConnectionOpen, isConnectionFailed, groupedData, killConnectionCallback: killConnection, setForceReconnectProvider: reconnect} = useOrderBookData({feedId: state.currentFeedId, groupSize: getCurrentGroupSize()});
 
   const groupChanged = useCallback((groupIndex: number) => {
     setState({

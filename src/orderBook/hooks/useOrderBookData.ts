@@ -7,11 +7,24 @@ type MessageData = {
   asks: Map<number, number>;
 };
 
-const createSubscriptionMessage = (feedId: FeedId): string => {
+type UseOrderBookDataProps = {
+  feedId: FeedId;
+  groupSize: number;
+}
+
+type UseOrderBookDataResult = {
+  isConnectionOpen: boolean,
+  isConnectionFailed: boolean,
+  groupedData: OrderBookData,
+  killConnectionCallback: () => void,
+  setForceReconnectProvider: () => void,
+}
+
+export const createSubscriptionMessage = (feedId: FeedId): string => {
   return JSON.stringify({"event":"subscribe","feed":"book_ui_1","product_ids":[feedId]});
 }
 
-const createUnsubscriptionMessage = (feedId: FeedId): string => {
+export const createUnsubscriptionMessage = (feedId: FeedId): string => {
   return JSON.stringify({"event":"unsubscribe","feed":"book_ui_1","product_ids":[feedId]});
 }
 
@@ -40,7 +53,7 @@ const grouppingCallback = (groupSize: number, groupedData: [number, number][]) =
   };
 };
 
-export const useOrderBookData = (feedId: FeedId, groupSize: number): [boolean, boolean, OrderBookData, () => void, () => void] => {
+export const useOrderBookData = ({feedId, groupSize} : UseOrderBookDataProps): UseOrderBookDataResult => {
   const [messageData, setMessageData] = useState<MessageData>({ bids: new Map<number, number>(), asks: new Map<number, number>()});
   const [isConnectionOpen, setIsConnectionOpen] = useState<boolean>(false);
   const [isConnectionFailed, setIsConnectionFailed] = useState<boolean>(false);
@@ -132,11 +145,11 @@ export const useOrderBookData = (feedId: FeedId, groupSize: number): [boolean, b
     });
   }, [groupSize, messageData]);
 
-  return [
+  return {
     isConnectionOpen,
     isConnectionFailed,
     groupedData,
     killConnectionCallback,
-    () => setForceReconnect({}),
-  ];
+    setForceReconnectProvider: () => setForceReconnect({}),
+  };
 };
